@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Web App | JS Practice</title>
+    <style>
+        /* global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            margin: 1% 2%;
+            box-shadow: 5px 4px 10px 10px rgb(214, 213, 213);
+            /* background: rgb(214, 213, 213); */
+        }
+
+        header {
+            display: flex;
+            background-color: rgb(147, 147, 255);
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1,
+        h2,
+        h3,
+        .btn {
+            font-family: 'Ubuntu', sans-serif;
+            margin-bottom: 1em;
+        }
+
+        p {
+            font-family: 'Lora', serif;
+        }
+
+        .title {
+            color: white;
+        }
+
+        .search {
+            margin-right: 1em;
+        }
+
+        .input-field {
+            padding: .3em;
+        }
+
+        .search-btn {
+            font-weight: bold;
+            padding: .1em;
+            font-size: 1rem;
+            background: transparent;
+            border: none;
+            color: white;
+            transition: all 0.2s linear;
+            box-shadow: 1px 2px 5px rgb(214, 213, 213);
+        }
+
+        .search-btn:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        main {
+            text-align: center;
+            /* border: 1px solid black; */
+        }
+
+        .form {
+            width: 100%;
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form input,
+        textarea {
+            margin-bottom: 1rem;
+            width: 60%;
+        }
+
+        .btn {
+            background-color: rgb(147, 147, 255);
+            padding: 0.2em;
+            box-shadow: 1px 2px 5px rgb(129, 129, 129);
+            margin: 1em;
+            color: white;
+            font-weight: bolder;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.2s linear;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        /* note container */
+        .note-container {
+            display: flex;
+            flex-wrap: wrap;
+            /* justify-content: center; */
+            justify-content: space-evenly;
+        }
+
+        article {
+            display: flex;
+            grid-area: note;
+            flex-direction: column;
+            min-width: 20%;
+            max-width: 20%;
+            margin: 1em;
+            border: 2px solid grey;
+            border-radius: 10px;
+            justify-content: space-between;
+        }
+
+        article h2,
+        article p,
+        article button {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="title">
+                <h1>Notes App</h1>
+            </div>
+            <div class="search">
+                <input type="search" class="input-field search-field" placeholder="Search Here..">
+                <button type="button" class="btn search-btn">Search</button>
+            </div>
+        </header>
+        <main>
+            <div class="form">
+                <h2>Enter Your Note</h2>
+                <input type="text" class="input-field" id="note-heading" placeholder="Enter Note Heading" required>
+                <textarea name="message" id="note-message" class="message" cols="30" rows="10"
+                    placeholder="Enter Your Reminder Message" style="text-align: center;"></textarea>
+                <div class="btns">
+                    <button class="btn add-btn">Add Note</button>
+                </div>
+            </div>
+        </main>
+        <div class="note-container">
+
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script>
+        const addBtn = document.querySelector(".add-btn");
+        // let noteCard = document.getElementById("note");
+        let heading = document.querySelector("#note-heading");
+        let content = document.querySelector("#note-message");
+        let noteContainer = document.querySelector(".note-container");
+
+        window.addEventListener("DOMContentLoaded", function () {
+            // console.log("DOM fully loaded and parsed");
+            for (let i = 0; i < localStorage.length; i++) {
+                noteHeading = localStorage.key(i);
+                noteContent = localStorage.getItem(noteHeading);
+                // console.log(noteHeading, noteContent);
+                let note = document.createElement('article');
+                note.innerHTML += `<h2 class="note-heading">${noteHeading}</h2>
+                <p contenteditable="true">${noteContent}</p>
+                <button id="${this.noteHeading}" onclick="deleteNote(this.id)" class="btn delete-btn">Delete Note</button>`;
+                noteContainer.appendChild(note);
+                noteContainer.insertBefore(note, null);
+            }
+        });
+
+        addBtn.addEventListener("click", function () {
+            let note = document.createElement('article');
+            let noteHeading = heading.value;
+            // console.log(noteHeading);
+            let noteContent = content.value;
+            // console.log(noteContent);
+            if (noteHeading == "" || noteContent == "") {
+                alert("Cannot Insert Empty Note");
+            }
+            else {
+                note.innerHTML += `<h2 class="note-heading">${noteHeading}</h2>
+                <p contenteditable="true">${noteContent}</p>
+                <button id="${this.noteHeading}" onclick="deleteNote(this.id)" class="btn delete-btn">Delete Note</button>`;
+                noteContainer.appendChild(note);
+                noteContainer.insertBefore(note, null);
+                localStorage.setItem(`${noteHeading}`, `${noteContent}`);
+                heading.value = "";
+                content.value = "";
+            }
+        });
+        function deleteNote(noteHeading) {
+            localStorage.removeItem(noteHeading);
+            location.reload();
+            }
+    </script>
+</body>
+
+</html>

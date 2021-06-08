@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Div | HTML5 Practice</title>
+    <style>
+        .container{
+            width: 50%;
+            margin: auto;
+        }
+        .myDiv{
+            width: 400px;
+            height: 300px;
+            border: 1px solid black;
+            font-size: 2rem;
+            font-weight: 900;
+            caret-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="myDiv" contenteditable="true">
+
+        </div>
+    </div>
+    <script>
+        const myDiv = document.querySelector(".myDiv");
+        // console.log(myDiv.contentEditable);
+        // contentEditable returns wheter contenteditable attribute is set true or false, it returns in string
+        // console.log(myDiv.isContentEditable);
+        // isContentEditable is same as contentEditable but the only key difference is that it returns in boolean formate
+        window.addEventListener("DOMContentLoaded",function(){
+            let comment_data = localStorage.getItem("comment");
+            // console.log(comment_data);
+            myDiv.textContent = comment_data;
+        });
+        myDiv.addEventListener("blur",function(){
+            let content_val = myDiv.innerText;
+            // console.log(content_val);
+            localStorage.setItem("comment",content_val);
+            console.log(typeof content_val);
+        });
+    </script>
+</body>
+</html>

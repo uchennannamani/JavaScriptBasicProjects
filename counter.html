@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter | JS Practice</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* background-color: grey; */
+        }
+        body{
+            background: grey;
+        }
+        .container {
+            width: 80%;
+            margin: 40vh auto;
+            text-align: center;
+            background-color: white;
+        }
+
+        h1 {
+            font-size: 5rem;
+        }
+
+        .btn {
+            font-size: 1.2rem;
+            padding: .5em 1.2em;
+            background: transparent;
+            border: 2px solid black;
+            border-radius: 2rem;
+            margin: 1em 0.5em;
+            transition: all 0.2s linear;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="value-container">
+            <h1 id="count-value"></h1>
+        </div>
+        <div class="btns">
+            <button class="decreaseBtn btn">Decrease</button>
+            <button class="resetBtn btn">Reset</button>
+            <button class="increaseBtn btn">Increase</button>
+        </div>
+    </div>
+    <script>
+        let count = 0;
+        let value = document.getElementById("count-value");
+        document.addEventListener("DOMContentLoaded", function () {
+            value.innerText = count;
+        });
+        const increaseBtn = document.querySelector(".increaseBtn");
+        const resetBtn = document.querySelector(".resetBtn");
+        const decreaseBtn = document.querySelector(".decreaseBtn");
+
+        increaseBtn.addEventListener("click", function () {
+            count = count + 1;
+            value.innerText = count;
+        });
+
+        decreaseBtn.addEventListener("click", function () {
+            count = count - 1;
+            value.innerText = count;
+        });
+        resetBtn.addEventListener("click",function(){
+            count = 0;
+            value.innerText = count;
+        });
+    </script>
+</body>
+
+</html>
